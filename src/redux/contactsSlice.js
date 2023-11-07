@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
   requestAddContact,
   requestContacts,
   requestDeleteContact,
-} from 'services/mockApi';
+} from 'services/phonebookApi';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/getAll',
@@ -45,45 +45,62 @@ export const deleteContact = createAsyncThunk(
 );
 
 const INITIAL_STATE = {
-  items: [],
+  contacts: [],
   isLoading: false,
   error: null,
-};
-
-const commonPendingReducer = state => {
-  state.isLoading = true;
-  state.error = null;
-};
-
-const commonRejectedReducer = (state, action) => {
-  state.isLoading = false;
-  state.error = action.payload;
+  filterTerm: '',
 };
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: INITIAL_STATE,
 
+  reducers: {
+    setFilterTerm: (state, action) => {
+      state.filterTerm = action.payload;
+    },
+  },
+
   extraReducers: builder =>
     builder
-      .addCase(fetchContacts.pending, commonPendingReducer)
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items = action.payload;
+        state.contacts = action.payload;
       })
-      .addCase(fetchContacts.rejected, commonRejectedReducer)
-      .addCase(addContact.pending, commonPendingReducer)
       .addCase(addContact.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items.unshift(action.payload);
+        state.contacts.unshift(action.payload);
       })
-      .addCase(addContact.rejected, commonRejectedReducer)
-      .addCase(deleteContact.pending, commonPendingReducer)
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items = state.items.filter(item => item.id !== action.payload.id);
+        state.contacts = state.contacts.filter(
+          contact => contact.id !== action.payload.id
+        );
       })
-      .addCase(deleteContact.rejected, commonRejectedReducer),
+
+      .addMatcher(
+        isAnyOf(
+          fetchContacts.pending,
+          addContact.pending,
+          deleteContact.pending
+        ),
+        state => {
+          state.isLoading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          fetchContacts.rejected,
+          addContact.rejected,
+          deleteContact.rejected
+        ),
+        (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        }
+      ),
 });
 
+export const { setFilterTerm } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

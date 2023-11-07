@@ -12,7 +12,7 @@ export const ContactForm = () => {
   const handleSubmit = (values, { resetForm }) => {
     const newContact = {
       name: values.name,
-      phone: values.phone,
+      number: values.number,
     };
 
     if (contacts.find(contact => contact.name === newContact.name)) {
@@ -26,7 +26,7 @@ export const ContactForm = () => {
 
   const initialValues = {
     name: '',
-    phone: '',
+    number: '',
   };
 
   return (
@@ -43,8 +43,8 @@ export const ContactForm = () => {
           />
         </>
         <>
-          <label htmlFor="phone">Number:</label>
-          <StyledField type="tel" id="phone" name="phone" required />
+          <label htmlFor="number">Number:</label>
+          <StyledField type="tel" id="number" name="number" required />
         </>
         <StyledBtn type="submit">Add contact</StyledBtn>
       </StyledForm>

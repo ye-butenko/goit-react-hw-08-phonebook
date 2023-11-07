@@ -3,8 +3,8 @@ import { StyledList, StyledItem, StyledBtn } from './ContactList.styled';
 import {
   selectContacts,
   selectContactsError,
+  selectContactsFilterTerm,
   selectContactsIsLoading,
-  selectFilter,
 } from 'redux/selectors';
 import { deleteContact, fetchContacts } from 'redux/contactsSlice';
 import { useEffect } from 'react';
@@ -15,7 +15,7 @@ export const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const isLoading = useSelector(selectContactsIsLoading);
   const erorr = useSelector(selectContactsError);
-  const filter = useSelector(selectFilter);
+  const filter = useSelector(selectContactsFilterTerm);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -30,11 +30,11 @@ export const ContactList = () => {
       {isLoading && <div>Loaging...</div>}
       {erorr && <div>`${erorr}`</div>}
       <StyledList>
-        {filteredContacts.map(({ id, name, phone }) => {
+        {filteredContacts.map(({ id, name, number }) => {
           return (
             <StyledItem key={id}>
               <span className="name">{name}</span>
-              <span className="number">{phone}</span>
+              <span className="number">{number}</span>
               <StyledBtn
                 type="button"
                 onClick={() => {
