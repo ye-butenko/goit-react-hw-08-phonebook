@@ -8,6 +8,7 @@ import {
 } from 'redux/selectors';
 import { deleteContact, fetchContacts } from 'redux/contactsSlice';
 import { useEffect } from 'react';
+import Loader from 'components/Loader';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export const ContactList = () => {
 
   return (
     <>
-      {isLoading && <div>Loaging...</div>}
+      {isLoading && <Loader />}
       {erorr && <div>`${erorr}`</div>}
       <StyledList>
         {filteredContacts.map(({ id, name, number }) => {
