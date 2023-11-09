@@ -3,11 +3,11 @@ import { StyledBtn, StyledForm, StyledField } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from 'redux/selectors';
 import { addContact } from 'redux/contactsSlice';
-import { Alert } from '@mui/material';
-import { useState } from 'react';
+// import { Alert } from '@mui/material';
+// import { useState } from 'react';
 
 export const ContactForm = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const contacts = useSelector(selectContacts);
 
@@ -21,7 +21,7 @@ export const ContactForm = () => {
 
     if (contacts.find(contact => contact.name === newContact.name)) {
       alert(`${newContact.name} is already in contacts`);
-      setOpen(true);
+      // setOpen(true);
     } else {
       dispatch(addContact(newContact));
     }
