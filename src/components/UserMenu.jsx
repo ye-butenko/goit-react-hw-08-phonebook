@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOutThunk } from 'redux/authSlice';
 import { selectAuthUserData } from 'redux/selectors';
+import { StyledBtn } from './ContactForm/ContactForm.styled';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
@@ -12,9 +13,9 @@ const UserMenu = () => {
   };
 
   return (
-    <div>
+    <div className="userMenu">
       <p>{email}</p>
-      <button onClick={onLogOut}>Logout</button>
+      <StyledBtn onClick={onLogOut}>Logout</StyledBtn>
     </div>
   );
 };

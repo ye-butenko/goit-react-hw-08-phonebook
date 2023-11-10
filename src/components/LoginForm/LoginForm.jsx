@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { loginThunk } from 'redux/authSlice';
+import { FormContainer, Title } from './LoginForm.styled';
 import {
   Button,
   FormControl,
@@ -9,29 +12,22 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { FormContainer, Title } from 'components/LoginForm/LoginForm.styled';
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { registerThunk } from 'redux/authSlice';
-
-const RegisterPage = () => {
+const LoginForm = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    dispatch(registerThunk(data));
+    dispatch(loginThunk(data));
     reset();
   };
-
-  const [showPassword, setShowPassword] = useState(false);
-
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = event => {
     event.preventDefault();
@@ -39,22 +35,7 @@ const RegisterPage = () => {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <Title>Sign in to continue</Title>
-
-      <FormControl
-        sx={{ m: 1, width: '25ch' }}
-        variant="outlined"
-        error={!!errors.name}
-      >
-        <InputLabel htmlFor="outlined-adornment-name">Name</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-name"
-          type="name"
-          label="Name"
-          {...register('name', { required: 'Name is required' })}
-        />
-        <FormHelperText>{errors.name && errors.name.message}</FormHelperText>
-      </FormControl>
+      <Title>Sign up to continue</Title>
 
       <FormControl
         sx={{ m: 1, width: '25ch' }}
@@ -110,4 +91,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginForm;

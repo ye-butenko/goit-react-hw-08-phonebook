@@ -7,7 +7,7 @@ import { selectAuthIsLoading } from 'redux/selectors';
 import Loader from './Loader';
 import RestictedRoute from './RestictedRoute';
 import PrivateRoute from './PrivateRoute';
-import Navigation from './Navigation';
+import Navigation from './Navigation/Navigation';
 
 const HomePage = lazy(() => import('pages/HomePage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage'));

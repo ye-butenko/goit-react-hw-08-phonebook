@@ -10,6 +10,8 @@ import { deleteContact, fetchContacts } from 'redux/contactsSlice';
 import { useEffect } from 'react';
 import Loader from 'components/Loader';
 
+import DeleteIcon from '@mui/icons-material/Delete';
+
 export const ContactList = () => {
   const dispatch = useDispatch();
 
@@ -42,7 +44,7 @@ export const ContactList = () => {
                   dispatch(deleteContact(id));
                 }}
               >
-                Delete
+                <DeleteIcon />
               </StyledBtn>
             </StyledItem>
           );
